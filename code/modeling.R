@@ -1,4 +1,5 @@
-data = read.csv("BodyFat.csv")
+data = read.csv("../data/BodyFat.csv")
+pdf("../image/plots.pdf")
 index = c()
 for(i in 1:length(data))
 {
@@ -8,7 +9,7 @@ index = sort(unique(index))
 
 data = data[-index,]
 
-plot(1/(data$WEIGHT/data$HEIGHT^2/data$ADIPOSITY))
+plot(1/(data$WEIGHT/data$HEIGHT^2/data$ADIPOSITY),ylab = "Adiposity*Height^2/Weight")
 index = which(abs(1/(data$WEIGHT/data$HEIGHT^2/data$ADIPOSITY)-700)>50)
 data = data[-index,]
 
@@ -22,14 +23,14 @@ data = data[selected_item,]
 data = data[,-c(1,3)]
 baseline = lm(BODYFAT~.,data = data)
 cooksd = cooks.distance(baseline)
-plot(cooksd)
+plot(cooksd,ylab = "Cook's Distance")
 abline(h = 4*mean(cooksd, na.rm=T), col="red")
 index = which(cooksd>=4*mean(cooksd, na.rm=T))
 #index = which(cooksd>=0.03)
 
 n=dim(model.matrix(baseline))[1]
 p=dim(model.matrix(baseline))[2]
-plot(abs(dffits(baseline)))
+plot(abs(dffits(baseline)),ylab = "DFFITS")
 abline(h=1,col='red')
 abline(h=2*sqrt(p/n),col='green')
 index = c(index,which(abs(dffits(baseline))>1))
@@ -61,3 +62,4 @@ n=dim(model.matrix(baseline))[1]
 p=dim(model.matrix(baseline))[2]
 plot(abs(dffits(modelAIC)),ylab ="DFFITS",type = "p",pch=19,ylim = c(0,1.05),main = "DFFITS")
 abline(h=1,col='red')
+dev.off()
