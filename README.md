@@ -32,4 +32,5 @@ originally created by Jingshan Huang, Xiaotian Wang and Yuanyou Yao
 ## Some explanations for files in code/
 
 1.run modeling.R and you will get our model and some statistical inference. What's more, some relevent analysis images will be saved in image/
+
 2.run shortreport.Rmd, which creates a shortreport.pdf, a summary version of the report.
